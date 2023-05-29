@@ -7,10 +7,15 @@
 #include "lista_ligada_peso.h" 
 //#include "fila_prioridade_heap_binario.h" 
 
+struct Lista {
+    int valor;
+    Lista *lista_de_adjacencias;
+}
 
 struct grafo {
 	Lista **lista_de_adjacencias;
-    int numero_de_vertices;      
+    int numero_de_vertices;    
+    int visitado;  
 };
 
 
@@ -29,7 +34,19 @@ Grafo *criar_grafo(int numero_de_vertices) {
     return ptr_no_grafo;
 }
 
-void destruir_grafo(Grafo *ptr_grafo) { 
+void destruir_grafo(Grafo *ptr_grafo) {
+
+    if(ptr_grafo != NULL) {
+
+
+        while(ptr_grafo->lista_de_adjacencias){
+
+            
+            free(ptr_grafo->lista_de_adjacencias);
+        }
+
+            free(ptr_grafo->numero_de_vertices);
+    }
 
 
 }
@@ -43,6 +60,13 @@ void remover_aresta_grafo(Grafo *ptr_grafo, int vertice_origem, int vertice_dest
 
 }
 
+int buscaProfundidade_Grafo(Grafo *ptr_grafo, int cont){
 
+        if(ptr_grafo->visitado != 1){
+            ptr_grafo->visitado = 1;
+            buscaProfundidade_Grafo(ptr_grafo,cont+1);
+        }
 
-    
+        ptr_grafo->visitado = 0;
+
+}
